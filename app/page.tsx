@@ -21,8 +21,7 @@ const FormSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   personalNumber: z.string().min(1),
-  idNumber: z.string().min(1),
-  address: z.string().min(1),
+  idNumber: z.string().min(1), 
   phone: z.string().min(1),
   fax: z.string().optional(),
   agNumber: z.string().min(1),
@@ -31,8 +30,7 @@ const FormSchema = z.object({
   createdAt: z.string().min(1),
   validTill: z.string().min(1),
   note: z.string().optional(),
-  signatureAn: z.any().optional(),
-  signatureAg: z.any().optional(),
+  signatureAn: z.any().optional(), 
   photo: z.any().optional(),
 });
 
@@ -53,8 +51,7 @@ export default function Home() {
   const MASTER_PASSWORD = "Confirm@2025";
 
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
-  const [signAnUrl, setSignAnUrl] = useState<string | null>(null);
-  const [signAgUrl, setSignAgUrl] = useState<string | null>(null);
+  const [signAnUrl, setSignAnUrl] = useState<string | null>(null); 
   // Using static logo from public now; no state needed
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -65,8 +62,7 @@ export default function Home() {
       firstName: "",
       lastName: "",
       personalNumber: "",
-      idNumber: "",
-      address: "",
+      idNumber: "", 
       phone: "",
       agNumber: "",
       maNumber: "",
@@ -154,7 +150,7 @@ export default function Home() {
     // Use html-to-image for robust rendering, avoiding color parser issues
     const imgData = await toPng(node, {
       cacheBust: true,
-      pixelRatio: 2,
+      pixelRatio: 1,
       backgroundColor: "#f3f4f6",
     });
     const W = pxToMm(wPx);
@@ -166,14 +162,17 @@ export default function Home() {
     });
     // Add a tiny inner margin to avoid any edge cropping due to rounding
     const m = 0.5; // mm
-    pdf.addImage(
-      imgData,
-      "PNG",
-      m,
-      m,
-      Math.max(0, W - 2 * m),
-      Math.max(0, H - 2 * m)
-    );
+    // pdf.addImage(
+    //   imgData,
+    //   "PNG",
+    //   m,
+    //   m,
+    //   Math.max(0, W - 2 * m),
+    //   Math.max(0, H - 2 * m)
+    // );
+
+    pdf.addImage(imgData, 'PNG', m, m, Math.max(0, W - 2 * m), Math.max(0, H - 2 * m), undefined, 'FAST');
+
      const pdfBlob = pdf.output("blob");
      const formData = new FormData();
 formData.append(
@@ -651,7 +650,7 @@ formData.append(
                       </h3>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div className="sm:col-span-2 space-y-3 group">
+                      {/* <div className="sm:col-span-2 space-y-3 group">
                         <Label
                           htmlFor="address"
                           className="text-slate-300 font-medium group-hover:text-white transition-colors"
@@ -667,7 +666,7 @@ formData.append(
                           />
                           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 to-cyan-500/0 group-hover:from-purple-500/5 group-hover:to-cyan-500/5 rounded-md transition-all duration-300 pointer-events-none"></div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="space-y-3 group">
                         <Label
                           htmlFor="phone"
@@ -1131,10 +1130,10 @@ formData.append(
                       </div>
 
                       {/* Signature AG Upload Card */}
-                      <div className="group relative">
+                      {/* <div className="group relative">
                         <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div className="relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 group-hover:scale-105">
-                          {/* Card Header */}
+                          
                           <div className="flex items-center gap-3 mb-4">
                             <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-lg flex items-center justify-center">
                               <svg
@@ -1156,7 +1155,7 @@ formData.append(
                             </h4>
                           </div>
 
-                          {/* Upload Area */}
+                           
                           <div className="relative">
                             <Input
                               type="file"
@@ -1225,7 +1224,7 @@ formData.append(
                             </div>
                           </div>
 
-                          {/* Enhanced Upload Button */}
+                         
                           <button
                             onClick={() => {
                               const input = document.querySelectorAll(
@@ -1251,10 +1250,9 @@ formData.append(
                             Choose File
                           </button>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
-
-                    {/* Upload Progress & Status Bar */}
+ 
                     <div className="mt-8 p-6 bg-slate-800/30 border border-slate-700/30 rounded-2xl backdrop-blur-sm">
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="text-lg font-semibold text-slate-300">
@@ -1271,15 +1269,15 @@ formData.append(
                               signAnUrl ? "bg-green-500" : "bg-slate-600"
                             } animate-pulse`}
                           ></div>
-                          <div
+                          {/* <div
                             className={`w-3 h-3 rounded-full ${
                               signAgUrl ? "bg-green-500" : "bg-slate-600"
                             } animate-pulse`}
-                          ></div>
+                          ></div> */}
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-4 text-sm">
+                      <div className="flex justify-between  gap-4 text-sm">
                         <div className="text-center">
                           <p
                             className={`font-medium ${
@@ -1298,7 +1296,7 @@ formData.append(
                             {signAnUrl ? "✓ Signature AN" : "○ Signature AN"}
                           </p>
                         </div>
-                        <div className="text-center">
+                        {/* <div className="text-center">
                           <p
                             className={`font-medium ${
                               signAgUrl ? "text-green-400" : "text-slate-500"
@@ -1306,19 +1304,18 @@ formData.append(
                           >
                             {signAgUrl ? "✓ Signature AG" : "○ Signature AG"}
                           </p>
-                        </div>
+                        </div> */}
                       </div>
 
-                      {/* Progress Bar */}
+                       
                       <div className="mt-4">
                         <div className="flex justify-between text-xs text-slate-400 mb-2">
                           <span>Upload Progress</span>
                           <span>
                             {Math.round(
                               (((photoUrl ? 1 : 0) +
-                                (signAnUrl ? 1 : 0) +
-                                (signAgUrl ? 1 : 0)) /
-                                3) *
+                                (signAnUrl ? 1 : 0) ) /
+                                2) *
                                 100
                             )}
                             %
@@ -1330,9 +1327,8 @@ formData.append(
                             style={{
                               width: `${
                                 (((photoUrl ? 1 : 0) +
-                                  (signAnUrl ? 1 : 0) +
-                                  (signAgUrl ? 1 : 0)) /
-                                  3) *
+                                  (signAnUrl ? 1 : 0) ) /
+                                  2) *
                                 100
                               }%`,
                             }}
@@ -1453,7 +1449,7 @@ formData.append(
                       <div className="bg-white rounded-lg overflow-hidden">
                         {/* Header with photo and pseudo logo */}
                         <div className="p-0.5">
-                          <div className="grid grid-cols-[120px_1fr] gap-4 items-center">
+                          <div className="flex justify-between mb-5 items-center">
                             <div
                               className="h-[140px] w-[120px] overflow-hidden border ml-5"
                               style={{
@@ -1547,9 +1543,11 @@ formData.append(
                             Der/Die Inhaber/in ist Mitarbeiter/in der Firma:
                           </p>
                           {/* Company name removed from details */}
-                          <div className="grid grid-cols-[1fr_auto] gap-4">
+                          <div className="grid grid-cols-[1fr_auto] gap-4 my-2 mb-5">
                             <div className="whitespace-pre-line font-semibold">
-                              {watch("address")}
+                              United Security Stuttgart GmbH <br />
+                              Steiermärker Str. 3-5<br />
+                              70469 Stuttgart<br />
                             </div>
                             <div>
                               <div>Tel: {watch("phone")}</div>
@@ -1608,15 +1606,16 @@ formData.append(
                             </div>
                             {/* Signature AG */}
                             <div className="text-center text-sm">
-                              <div className="h-10 flex items-center justify-center py-1">
-                                {signAgUrl && (
+                              <div className="h-12 flex items-center justify-center py-1">
+                                {/* {signAgUrl && (
                                   // eslint-disable-next-line @next/next/no-img-element
-                                  <img
-                                    src={signAgUrl as string}
+                                  
+                                )} */}
+                                <img
+                                    src="/signature.png"
                                     alt="sign ag"
                                     className="max-h-full max-w-full object-contain"
                                   />
-                                )}
                               </div>
                               <div style={{ borderTop: "1px solid #e5e7eb" }} />
                               <div style={{ color: "#374151" }}>
